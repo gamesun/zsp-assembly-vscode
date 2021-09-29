@@ -1,0 +1,219 @@
+{
+  "name": "ZSP Assembly",
+  "scopeName": "source.zsp-assembly",
+  "fileTypes": [
+    "s",
+    "S"
+  ],
+  "patterns": [
+    {
+      "comment": "Comments",
+      "name": "comment.line.number-sign.zsp-assembly",
+      "match": "(!|//).*$"
+    },
+    {
+      "begin": "^\\s*((#)\\s*(include(?:_next)?|import))\\b\\s*",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.directive.$3.zsp-assembly"
+        },
+        "2": {
+          "name": "punctuation.definition.directive.zsp-assembly"
+        }
+      },
+      "end": "(?=(?://|/\\*))|(?<!\\\\)(?=\\n)",
+      "name": "meta.preprocessor.include.zsp-assembly",
+      "patterns": [
+        {
+          "include": "#line_continuation_character"
+        },
+        {
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.zsp-assembly"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.zsp-assembly"
+            }
+          },
+          "name": "string.quoted.double.include.zsp-assembly"
+        },
+        {
+          "begin": "<",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.zsp-assembly"
+            }
+          },
+          "end": ">",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.zsp-assembly"
+            }
+          },
+          "name": "string.quoted.other.lt-gt.include.zsp-assembly"
+        }
+      ]
+    },
+    {
+      "begin": "^\\s*#(define|ifdef|ifndef|elif|if)",
+      "beginCaptures": {
+        "0": {
+          "name": "keyword.control.directive.conditional.zsp-assembly"
+        }
+      },
+      "end": "(?=(?://|/\\*))|(?<!\\\\)(?=\\n)",
+      "patterns": [
+        {
+          "match": "defined",
+          "name": "keyword.control.directive.conditional.zsp-assembly"
+        },
+        {
+          "match": "[^\n\\\\/\\*]+",
+          "name": "meta.preprocessor.zsp-assembly"
+        }
+      ]
+    },
+    {
+      "begin": "(?i)\\.(section|segment)\\b",
+      "end": "(?=(?://|/\\*))|(?<!\\\\)(?=\\n)(?-i)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.directive.zsp-assembly"
+        },
+        "2": {
+          "name": "variable.name.zsp-assembly"
+        }
+      },
+      "name": "entity.name.section.zsp-assembly",
+      "patterns": [
+        {
+          "match": "\"\\S+\"(,\"\\S+\")?",
+          "name": "storage.modifier.zsp-assembly",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.integer"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "match": "^\\s*#(else|endif)\\b",
+      "name": "keyword.control.directive.conditional.zsp-assembly"
+    },
+    {
+      "name": "comment.zsp-assembly",
+      "begin": "\\/\\*",
+      "beginCaptures": {
+        "0": {
+          "name": "comment.begin.zsp-assembly"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "comment.end.zsp-assembly"
+        }
+      },
+      "end": "\\*\\/"
+    },
+    {
+      "comment": "Control Registers",
+      "name": "constant.language.register.zsp-assembly",
+      "match": "(?i)(%(amode|cb[01]_(beg|end)|ded|dei|fmode|guard|hwflag|imask|ip[01]|ireq|loop[0-3]|r?pc|smode|tc|timer[01]|tpc|vitr))\\b(?-i)"
+    },
+    {
+      "comment": "Decimal Integers",
+      "name": "constant.numeric.dec.zsp-assembly",
+      "match": "\\b(([\\-]?[0-9]+)|[0-9]+:[0-9]+)(\\b|$)"
+    },
+    {
+      "comment": "Hexadecimal Integers",
+      "match": "#?-?(0x|&)[0-9a-fA-F_]+\\b",
+      "name": "constant.numeric.hex.zsp-assembly"
+    },
+    {
+      "name": "string.quoted.zsp-assembly",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "match": "\\'\\S\\'",
+      "name": "string.char.zsp-assembly"
+    },
+    {
+      "match": "\\b(?i)(r([0-9]|1[0-5]))(?-i)\\b",
+      "name": "constant.language.register.zsp-assembly"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(mov[lh]?|movlh)\\b"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b((mac(n|2)?|muln?|cmac(r|i)|cmul(r|i)|dmac|dmul|imul|padd|psub)\\.(a|b))\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b((norm|add|sub|cmp|abs|shla|shra|min|max|and|or|xor|neg|not)(\\.e)?)\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b((addc|subc|round)\\.e)\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(vit_(a|b))\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(bit[csit])\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(revb)\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b((shll|shrl)(\\.e)?)\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(br|bz|bnz|blt|ble|bgt|bge|bov|bnov|bc|bnc|agn[0-3]|call|reti?|ld|ldu|lddu|ldx|ldxu|st|stu|stdu|stx|stxu|nop)\\b(?-i)"
+    },
+    {
+      "comment": "Instruction",
+      "name": "keyword.operator.word.zsp-assembly",
+      "match": "(?i)\\b(lda|halt|sleep|idle)\\b(?-i)"
+    },
+    {
+      "comment": "Operators",
+      "name": "keyword.operator.zsp-assembly",
+      "match": "\\b(\\+|\\-|\\,)([ \\t\\,]|\\b|$)"
+    },
+    {
+      "comment": "Other",
+      "name": "keyword.control.word.zsp-assembly",
+      "match": "(?i)(\\.(global|walign|wspace|extern|ident|stab(s|n|d)|size|type|comm|local|set))\\b(?-i)"
+    },
+    {
+      "match": "((_)?[\\w0-9]+:?)|([\\w0-9]+:)",
+      "name": "entity.name.tag"
+    }
+
+  ]
+}
+
