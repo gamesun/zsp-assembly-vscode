@@ -1,14 +1,6 @@
-# ZSP Assembly README
+# ZSP Assembly
 
 ZSP assembly language support for Visual Studio Code
-
-
-## Release Notes
-
-### 1.0.0
-
-Initial release
-
 
 ## License
 
